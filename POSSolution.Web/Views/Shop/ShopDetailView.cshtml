@@ -1,0 +1,51 @@
+﻿@model POSSolution.Web.Models.Shop.ShopDetailViewModel;
+@{
+    ViewData["Title"] = "ShopDetailView";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<div class="card mb-4">
+    <div class="card-header">
+        <i class="fas fa-home mr-1"></i>
+        Thông Tin Cửa Hàng
+    </div>
+    <div class="card-body">
+        <form method="post">
+            <div class="form-group">
+                <label class="small mb-1" for="inputEmailAddress">Tên Quán</label>
+                @Html.TextBoxFor(model => model.name, new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                <label class="small mb-1" for="inputEmailAddress">Địa Chỉ</label>
+                @Html.TextBoxFor(model => model.address, new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                <label class="small mb-1" for="inputEmailAddress">Ghi Chú</label>
+                @Html.TextBoxFor(model => model.name, new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                <label class="small mb-1" for="inputEmailAddress">Trạng Thái</label>
+                @Html.DropDownListFor(model => model.status, new SelectList(Model.statusList, "Value", "Text"), new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                <label class="small mb-1" for="inputEmailAddress">Hình Ảnh</label>
+                <div class="custom-file">
+                    <input class="custom-file-input form-control" asp-for="imageFile" id="file" name="file" />
+                    <label class="custom-file-label">Đường Dẫn Hình Ảnh</label>
+                </div>
+            </div>
+            <div class="d-flex align-items-center row form-group">
+                <img src="@ViewData["FileLocation"]" class="col-12 col-md-10" height="400" />
+                <input class="col-12 col-md-2 btn btn-primary mt-2 mt-md-0" value="Upload" name="ImageUpload" type="submit"/>
+            </div>
+        </form>
+    </div>
+</div>
+<script src="~/lib/jquery/dist/jquery.min.js" crossorigin="anonymous"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".custom-file-input").on("change", function () {
+            var fileName = $(this).val().split("\\").pop();
+            $(this).next(".custom-file-label").html(fileName);
+        })
+    });
+</script>
