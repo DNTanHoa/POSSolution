@@ -24,7 +24,7 @@ namespace POSSolution.Data.Shop
             var shopStatus = new ShopStatus
             {
                 statusName = request.statusName,
-                createUser = "admin", //TODO:Get UserName Login
+                createUser = "admin", //TODO: Get UserName Login
                 createDate = DateTime.Now,
                 updateDate = DateTime.Now,
             };

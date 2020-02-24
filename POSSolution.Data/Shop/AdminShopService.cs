@@ -31,15 +31,23 @@ namespace POSSolution.Data.Shop
                 address = request.address,
                 image = request.image,
                 note = request.note,
-                status = request.status
+                status = request.status,
+                createUser = "admin", //TODO: Get UserName Login
+                createDate = DateTime.Now,
+                updateDate = DateTime.Now
             };
             _context.Shops.Add(shop);
             return await _context.SaveChangesAsync();
         }
 
-        public Task<int> DeleteShop(Guid shopId)
+        public async Task<int> DeleteShop(Guid shopId)
         {
-            throw new NotImplementedException();
+            var existShop = await _context.Shops.FirstOrDefaultAsync(shop => shop.shopId == shopId);
+            if(existShop != null)
+            {
+                _context.Shops.Remove(existShop);
+            }
+            return await _context.SaveChangesAsync();
         }
 
         public async Task<List<POSSolution.Application.Models.Shop>> GetAll()
@@ -47,9 +55,19 @@ namespace POSSolution.Data.Shop
             return await _context.Shops.ToListAsync();
         }
 
-        public Task<int> UpdateShop(Guid shopId, UpdateShopRequest request)
+        public async Task<int> UpdateShop(Guid shopId, UpdateShopRequest request)
         {
-            throw new NotImplementedException();
+            var existShop = await _context.Shops.FirstOrDefaultAsync(shop => shop.shopId == shopId);
+            if( existShop != null)
+            {
+                existShop.name = request.name;
+                existShop.address = request.address;
+                existShop.note = request.note;
+                existShop.image = request.image;
+                existShop.createUser = "admin"; //TODO: Get UserName Login
+                existShop.createDate = DateTime.Now;
+            }
+            return await _context.SaveChangesAsync();
         }
     }
 }

@@ -10,6 +10,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using POSSolution.Application.Context;
 using POSSolution.Application.Models;
 using POSSolution.Data.Shop;
+using POSSolution.Data.Shop.DataTransferObject;
+using POSSolution.Web.Helpers;
 using POSSolution.Web.Models.Shop;
 using POSSolution.Web.ServiceLocator;
 
@@ -43,32 +45,44 @@ namespace POSSolution.Web.Controllers.Shop
             return View("Views/Shop/ShopDetailView.cshtml",model);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> ImageUpload(IFormFile file)
+        [HttpPost("[action]")]
+        [Consumes("multipart/form-data")]
+        public async Task<IActionResult> InsertShop(ShopDetailViewModel model)
+        {
+            if(ModelState.IsValid)
+            {
+                var request = new AddShopRequest
+                {
+                    name = model.name,
+                    address = model.address,
+                    note = model.note,
+                    status = model.status,
+                    image = model.image
+                };
+                var adminShopService = serviceLocator.GetService<IAdminShopService>();
+                await adminShopService.AddShop(request);
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                ModelState.AddModelError("", "Nội Dung Nhập Không Phù Hợp");
+                return View("Views/Shop/ShopDetailView.cshtml", model);
+            }
+        }
+
+        [HttpPost("[action]")]
+        [Consumes("multipart/form-data")]
+        public async Task<IActionResult> ImageUpload([FromForm]IFormFile file,[FromForm]ShopDetailViewModel model)
         {
             if(file != null && file.Length > 0)
             {
-                var imagePath = @"\Upload\Images\";
-                var uploadPath = _env.WebRootPath + imagePath;
-                
-                if(!Directory.Exists(uploadPath))
-                    Directory.CreateDirectory(uploadPath);
-                
-                var uniqFileName = Guid.NewGuid().ToString();
-                var fileName = Path.GetFileName(uniqFileName + "." + file.FileName.Split(".")[1].ToLower());
-                string fullPath = uploadPath + fileName;
-                imagePath = imagePath + @"\";
-                var filePath = @".." + Path.Combine(imagePath, fileName);
-
-                using(var fileStream = new FileStream(fullPath, FileMode.Create))
-                {
-                    await file.CopyToAsync(fileStream);
-                }
-
-                ViewData["FileLocation"] = filePath;
+                var imagePath = await ImageUploadHelper.ImageUpload(file, _env);
+                ViewData["FileLocation"] = imagePath;
+                model.image = imagePath;
             }
+            model.statusList = GetShopStatus();
             
-            return View("Views/Shop/ShopDetailView.cshtml");
+            return View("Views/Shop/ShopDetailView.cshtml", model);
         }
 
         #region support function
