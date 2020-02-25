@@ -1,4 +1,5 @@
 ﻿@model POSSolution.Web.Models.Shop.ShopListViewModel;
+@using POSSolution.Utilities.Extensions;
 @{
     ViewData["Title"] = "ShopListView";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
@@ -25,34 +26,43 @@
                         <th>Địa Chỉ</th>
                         <th>Hình Ảnh</th>
                         <th>Trạng Thái</th>
+                        <th>Ghi Chú</th>
+                        <th>Người Tạo</th>
+                        <th>Ngày Tạo</th>
+                        <th>Ngày Sửa</th>
                         <th>Thao Tác</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var shop in Model.shops)
                     {
-                        <tr>
-                            <td>@shop.name</td>
-                            <td>@shop.address</td>
-                            <td>@shop.image</td>
-                            <td>@shop.status</td>
-                            <td>
-                                <form>
-                                    <div class="d-flex">
-                                        <button class="btn btn-success mr-1">
-                                            <i class="far fa-edit mr-1"></i>
-                                            Sửa
-                                        </button>
-                                        <button class="btn btn-danger mr-1">
-                                            <i class="far fa-trash-alt mr-1"></i>
-                                            Xóa
-                                        </button>
-                                    </div>
-                                </form>
-                            </td>
-                        </tr>
+                         <tr>
+                             <td>@shop.name</td>
+                             <td>@shop.address</td>
+                             <td>
+                                 <img src="@shop.image" class="circle-image" height="60" width="60" />
+                             </td>
+                             <td>@shop.status</td>
+                             <td>@shop.note</td>
+                             <td>@shop.createUser</td>
+                             <td>@shop.createDate.ToTableDisplayDate()</td>
+                             <td>@shop.updateDate.ToTableDisplayDate()</td>
+                             <td>
+                                 <form>
+                                     <div class="d-flex">
+                                         <a class="btn btn-success mr-1" asp-route-shopId="@shop.shopId" asp-action="ShowEditShop">
+                                             <i class="far fa-edit mr-1"></i>
+                                             Sửa
+                                         </a>
+                                         <a class="btn btn-danger mr-1" asp-action="DeleteShop" asp-controller="Shop" asp-route-shopId="@shop.shopId">
+                                             <i class="far fa-trash-alt mr-1"></i>
+                                             Xóa
+                                         </a>
+                                     </div>
+                                 </form>
+                             </td>
+                         </tr>
                     }
-                    <!--TODO: Add form for edit or delete user-->
                 </tbody>
             </table>
         </div>

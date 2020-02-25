@@ -24,6 +24,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\POSSolution.Data\POSSolution.Data.csproj" />
+    <ProjectReference Include="..\POSSolution.Utilities\POSSolution.Utilities.csproj" />
     <ProjectReference Include="..\POSSolution\POSSolution.Application.csproj" />
   </ItemGroup>
 

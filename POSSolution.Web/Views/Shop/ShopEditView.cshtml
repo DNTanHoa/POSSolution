@@ -1,26 +1,27 @@
-﻿@model POSSolution.Web.Models.Shop.ShopDetailViewModel;
+﻿@model POSSolution.Web.Models.Shop.ShopEditViewModel;
 @{
-    ViewData["Title"] = "ShopDetailView";
+    ViewData["Title"] = "ShopEditView";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
+
 <div class="card mb-4">
     <div class="card-header">
         <i class="fas fa-home mr-1"></i>
         Thông Tin Cửa Hàng
     </div>
     <div class="card-body">
-        <form method="post" enctype="multipart/form-data">
+        <form method="post" enctype="multipart/form-data" action="UpdateShop">
             <div class="form-group">
                 <label class="small mb-1">Tên Quán</label>
-                <input class="form-control" value="@Model.name" asp-for="@Model.name"/>
+                <input class="form-control" value="@Model.name" asp-for="@Model.name" />
             </div>
             <div class="form-group">
                 <label class="small mb-1">Địa Chỉ</label>
-                <input class="form-control" value="@Model.address" asp-for="@Model.address"/>
+                <input class="form-control" value="@Model.address" asp-for="@Model.address" />
             </div>
             <div class="form-group">
                 <label class="small mb-1">Ghi Chú</label>
-                <input class="form-control" value="@Model.note" asp-for="@Model.note"/> 
+                <input class="form-control" value="@Model.note" asp-for="@Model.note" />
             </div>
             <div class="form-group">
                 <label class="small mb-1" for="inputEmailAddress">Trạng Thái</label>
@@ -34,12 +35,14 @@
                 </div>
             </div>
             <div class="d-flex align-items-center row form-group">
-                <img src="@ViewData["FileLocation"]" asp-append-version="true" class="col-12 col-md-10" height="600"/>
-                <button id="uploadImage" asp-action="ImageUpload" asp-controller="Shop" class="col-12 col-md-2 btn btn-primary mt-2 mt-md-0">Tải Ảnh Lên</button>
+                <img src="@Model.image" asp-append-version="true" class="col-12 col-md-10" height="600" />
+                <button id="uploadImage" asp-action="ImageEdit" asp-route-file="@Model.imageFile" asp-controller="Shop" class="col-12 col-md-2 btn btn-primary mt-2 mt-md-0">Tải Ảnh Lên</button>
             </div>
             <div class="form-group">
                 <input class="form-control d-none" value="@Model.image" asp-for="@Model.image" readonly>
-                <button class="btn btn-primary mt-1" asp-action="InsertShop" asp-controller="Shop">Xác Nhận Lưu</button>
+                <input class="form-control d-none" value="@Model.shopId" asp-for="@Model.shopId" readonly>
+                <button class="btn btn-primary mt-1" type="submit" asp-action="UpdateShop" asp-route-shopId="@Model.shopId" asp-controller="Shop">Xác Nhận Lưu</button>
+                <button class="btn btn-light ml-2 d-inline-block" asp-action="Index">Thoát</button>
             </div>
         </form>
     </div>

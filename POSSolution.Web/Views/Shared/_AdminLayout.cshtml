@@ -81,6 +81,7 @@
                         <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
                             <nav class="sb-sidenav-menu-nested nav">
                                 <a class="nav-link" asp-action="Index" asp-controller="Shop">Cửa Hàng</a>
+                                <a class="nav-link" asp-action="Index" asp-controller="ShopStatus">Trạng Thái Cửa Hàng</a>
                                 <a class="nav-link">Nhân Viên</a>
                                 <a class="nav-link">Thực Đơn</a>
                                 <a class="nav-link">Đơn Giá</a>
@@ -140,6 +141,10 @@
         <div id="layoutSidenav_content">
             <main>
                 <div class="container-fluid mt-2">
+                    @if(TempData["message"] != null)
+                    {
+                        <div class="alert alert-success">@TempData["message"]</div>
+                    }
                     <div>
                         @RenderBody()
                     </div>

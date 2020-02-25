@@ -63,6 +63,7 @@ namespace POSSolution.Data.Shop
                 existShop.name = request.name;
                 existShop.address = request.address;
                 existShop.note = request.note;
+                existShop.status = request.status;
                 existShop.image = request.image;
                 existShop.createUser = "admin"; //TODO: Get UserName Login
                 existShop.createDate = DateTime.Now;

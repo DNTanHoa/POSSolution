@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using POSSolution.Application.Context;
 using POSSolution.Application.Models;
 using POSSolution.Data.Shop;
@@ -45,9 +46,28 @@ namespace POSSolution.Web.Controllers.Shop
             return View("Views/Shop/ShopDetailView.cshtml",model);
         }
 
+        public async Task<IActionResult> ShowEditShop(Guid shopId)
+        {
+            var editShop =  await _context.Shops.FirstOrDefaultAsync(shop => shop.shopId.Equals(shopId));
+            if (editShop != null)
+            {
+                var model = new ShopEditViewModel
+                {
+                    shopId = shopId,
+                    name = editShop.name,
+                    address = editShop.address,
+                    note = editShop.note,
+                    image = editShop.image
+                };
+                model.statusList = GetShopStatus();
+                return View("Views/Shop/ShopEditView.cshtml", model);
+            }
+            return RedirectToAction("Index");
+        }
+
         [HttpPost("[action]")]
         [Consumes("multipart/form-data")]
-        public async Task<IActionResult> InsertShop(ShopDetailViewModel model)
+        public async Task<IActionResult> InsertShop([FromForm]ShopDetailViewModel model)
         {
             if(ModelState.IsValid)
             {
@@ -61,6 +81,7 @@ namespace POSSolution.Web.Controllers.Shop
                 };
                 var adminShopService = serviceLocator.GetService<IAdminShopService>();
                 await adminShopService.AddShop(request);
+                TempData["message"] = $"{request.name} đã được thêm";
                 return RedirectToAction("Index");
             }
             else
@@ -68,6 +89,38 @@ namespace POSSolution.Web.Controllers.Shop
                 ModelState.AddModelError("", "Nội Dung Nhập Không Phù Hợp");
                 return View("Views/Shop/ShopDetailView.cshtml", model);
             }
+        }
+
+        [Consumes("multipart/form-data")]
+        public async Task<IActionResult> UpdateShop(Guid shopId,[FromForm]ShopEditViewModel model)
+        {
+            if(ModelState.IsValid)
+            {
+                var request = new UpdateShopRequest
+                {
+                    name = model.name,
+                    address = model.address,
+                    note = model.note,
+                    image = model.image,
+                    status = model.status
+                };
+                var adminShopService = serviceLocator.GetService<IAdminShopService>();
+                await adminShopService.UpdateShop(shopId,request);
+                TempData["message"] = $"{request.name} đã được cập nhật";
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                ModelState.AddModelError("", "Nội Dung Nhập Không Phù Hợp");
+                return View("Views/Shop/ShopEditView.cshtml", model);
+            }
+        }
+
+        public async Task<IActionResult> DeleteShop(Guid shopId)
+        {
+            var adminShopService = serviceLocator.GetService<IAdminShopService>();
+            await adminShopService.DeleteShop(shopId);
+            return RedirectToAction("Index"); 
         }
 
         [HttpPost("[action]")]
@@ -84,6 +137,22 @@ namespace POSSolution.Web.Controllers.Shop
             
             return View("Views/Shop/ShopDetailView.cshtml", model);
         }
+
+        [Consumes("multipart/form-data")]
+        public async Task<IActionResult> ImageEdit([FromForm]IFormFile file, [FromForm]ShopEditViewModel model)
+        {
+            if (file != null && file.Length > 0)
+            {
+                var imagePath = await ImageUploadHelper.ImageUpload(file, _env);
+                ViewData["FileLocation"] = imagePath;
+                model.image = imagePath;
+            }
+            model.statusList = GetShopStatus();
+
+            return View("Views/Shop/ShopEditView.cshtml", model);
+        }
+
+        
 
         #region support function
         public List<SelectListItem> GetShopStatus()
