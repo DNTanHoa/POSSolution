@@ -18,6 +18,11 @@ namespace POSSolution.Application.Context
             builder.ApplyConfiguration(new ShopConfiguration());
             builder.ApplyConfiguration(new RegionConfiguration());
             builder.ApplyConfiguration(new ShopStatusConfiguration());
+            builder.ApplyConfiguration(new TableConfiguration());
+            builder.ApplyConfiguration(new TableStatusConfiguration());
+            builder.ApplyConfiguration(new MenuConfiguration());
+            builder.ApplyConfiguration(new ItemConfiguration());
+            builder.ApplyConfiguration(new MenuItemConfiguration());
 
             base.OnModelCreating(builder);
         }
@@ -36,5 +41,10 @@ namespace POSSolution.Application.Context
         public DbSet<Shop> Shops { get; set; }
         public DbSet<Region> Regions { get; set; }
         public DbSet<ShopStatus> ShopStatuses { get; set; }
+        public DbSet<Table> Tables { get; set; }
+        public DbSet<TableStatus> TableStatuses { get; set; }
+        public DbSet<Menu> Menus { get; set; }
+        public DbSet<Item> Items { get; set; }
+        public DbSet<MenuItem> MenuItems { get; set; }
     }
 }

@@ -4,19 +4,15 @@ using System.Text;
 
 namespace POSSolution.Application.Models
 {
-    public class Region
+    public class TableStatus
     {
-        public Guid regionId { get; set; }
+        public int statusId { get; set; }
 
-        public string name { get; set; }
-        
-        public string code {get; set; }
-
-        public Shop shop { get; set; }
-
-        public ICollection<Table> tables { get; set; }
+        public string statusName { get; set; }
 
         public string createUser { get; set; }
+
+        public Region regions { get; set; }
 
         public DateTime? createDate { get; set; }
 

@@ -40,6 +40,7 @@
             <div class="form-group">
                 <input class="form-control d-none" value="@Model.image" asp-for="@Model.image" readonly>
                 <button class="btn btn-primary mt-1" asp-action="InsertShop" asp-controller="Shop">Xác Nhận Lưu</button>
+                <button class="btn btn-dark ml-1 mt-1 d-inline-block" asp-action="Index" asp-controller="Shop">Thoát</button>
             </div>
         </form>
     </div>
@@ -52,14 +53,4 @@
             $(this).next(".custom-file-label").html(fileName);
         });
     });
-    @*$(document).ready(function () {
-        $("#uploadImage").click(function () {
-            var parameters = { @Model.imageFile };
-            $.ajax({
-                type: "POST",
-                url: "@Url.Action("ImageUpload","Shop")",
-                data: {file: parameters}
-            });
-        });
-    });*@
 </script>

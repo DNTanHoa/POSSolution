@@ -44,7 +44,7 @@ namespace POSSolution.Data.Shop
             return await _context.ShopStatuses.ToListAsync();
         }
 
-        public async Task<int> UpdateShopStatus(Guid statusId, AddShopStatusRequest request)
+        public async Task<int> UpdateShopStatus(Guid statusId, UpdateShopStatusRequest request)
         {
             var existShopStatus = _context.ShopStatuses.FirstOrDefault(item => item.statusId.Equals(statusId));
             if(existShopStatus != null)

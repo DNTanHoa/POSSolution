@@ -4,17 +4,15 @@ using System.Text;
 
 namespace POSSolution.Application.Models
 {
-    public class Region
+    public class Menu
     {
-        public Guid regionId { get; set; }
+        public int menuId { get; set; }
 
-        public string name { get; set; }
-        
-        public string code {get; set; }
+        public string code { get; set; }
 
-        public Shop shop { get; set; }
+        public string note { get; set; }
 
-        public ICollection<Table> tables { get; set; }
+        public ICollection<MenuItem> items { get; set; }
 
         public string createUser { get; set; }
 

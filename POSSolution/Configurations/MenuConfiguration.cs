@@ -7,12 +7,13 @@ using System.Text;
 
 namespace POSSolution.Application.Configurations
 {
-    public class RegionConfiguration : IEntityTypeConfiguration<Region>
+    public class MenuConfiguration : IEntityTypeConfiguration<Menu>
     {
-        public void Configure(EntityTypeBuilder<Region> builder)
+        public void Configure(EntityTypeBuilder<Menu> builder)
         {
-            builder.ToTable("Regions");
-            builder.HasKey(x => x.regionId);
+            builder.ToTable("Menus");
+            builder.HasKey(item => item.menuId);
+            builder.Property(x => x.menuId).UseIdentityColumn();
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using POSSolution.Application.Context;
+using POSSolution.Data.Region;
 using POSSolution.Data.Shop;
 using System;
 using System.Collections.Generic;
@@ -21,6 +22,7 @@ namespace POSSolution.Web.ServiceLocator
             ///Register Service
             services.Add(typeof(IAdminShopService), new AdminShopService(_context));
             services.Add(typeof(IShopStatusService), new ShopStatusService(_context));
+            services.Add(typeof(IAdminRegionService), new AdminRegionService(_context));
         }
 
         public T GetService<T>()

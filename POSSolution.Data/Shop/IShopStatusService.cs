@@ -11,7 +11,7 @@ namespace POSSolution.Data.Shop
     {
         public Task<int> AddShopStatus(AddShopStatusRequest request);
 
-        public Task<int> UpdateShopStatus(Guid statusId, AddShopStatusRequest request);
+        public Task<int> UpdateShopStatus(Guid statusId, UpdateShopStatusRequest request);
         
         public Task<int> DeleteShopStatus(Guid statusId);
 

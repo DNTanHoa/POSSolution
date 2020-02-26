@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Region\Common\" />
     <Folder Include="Shop\Common\" />
   </ItemGroup>
 

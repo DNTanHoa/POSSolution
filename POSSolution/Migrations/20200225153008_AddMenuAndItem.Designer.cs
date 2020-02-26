@@ -3,100 +3,23 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using POSSolution.Application.Context;
 
 namespace POSSolution.Application.Migrations
 {
     [DbContext(typeof(POSContext))]
-    partial class POSContextModelSnapshot : ModelSnapshot
+    [Migration("20200225153008_AddMenuAndItem")]
+    partial class AddMenuAndItem
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "3.1.2")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("POSSolution.Application.Models.Item", b =>
-                {
-                    b.Property<int>("itemId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:IdentityIncrement", 1)
-                        .HasAnnotation("SqlServer:IdentitySeed", 1)
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime?>("createDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("createUser")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("itemCode")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("itemImage")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("itemName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal?>("itemPrice")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<DateTime?>("updateDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("itemId");
-
-                    b.ToTable("Items");
-                });
-
-            modelBuilder.Entity("POSSolution.Application.Models.Menu", b =>
-                {
-                    b.Property<int>("menuId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:IdentityIncrement", 1)
-                        .HasAnnotation("SqlServer:IdentitySeed", 1)
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("code")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("createDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("createUser")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("note")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("updateDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("menuId");
-
-                    b.ToTable("Menus");
-                });
-
-            modelBuilder.Entity("POSSolution.Application.Models.MenuItem", b =>
-                {
-                    b.Property<int>("menuId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("itemId")
-                        .HasColumnType("int");
-
-                    b.HasKey("menuId", "itemId");
-
-                    b.HasIndex("itemId");
-
-                    b.ToTable("MenuItems");
-                });
 
             modelBuilder.Entity("POSSolution.Application.Models.Region", b =>
                 {
@@ -192,8 +115,6 @@ namespace POSSolution.Application.Migrations
                     b.Property<int>("tableId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:IdentityIncrement", 1)
-                        .HasAnnotation("SqlServer:IdentitySeed", 1)
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<DateTime?>("createDate")
@@ -224,53 +145,7 @@ namespace POSSolution.Application.Migrations
 
                     b.HasIndex("regionId");
 
-                    b.ToTable("Tables");
-                });
-
-            modelBuilder.Entity("POSSolution.Application.Models.TableStatus", b =>
-                {
-                    b.Property<int>("statusId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:IdentityIncrement", 1)
-                        .HasAnnotation("SqlServer:IdentitySeed", 1)
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime?>("createDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("createUser")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid?>("regionsregionId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("statusName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("updateDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("statusId");
-
-                    b.HasIndex("regionsregionId");
-
-                    b.ToTable("TableStatuses");
-                });
-
-            modelBuilder.Entity("POSSolution.Application.Models.MenuItem", b =>
-                {
-                    b.HasOne("POSSolution.Application.Models.Item", "itemNavigation")
-                        .WithMany("menus")
-                        .HasForeignKey("itemId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("POSSolution.Application.Models.Menu", "menuNavigation")
-                        .WithMany("items")
-                        .HasForeignKey("menuId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.ToTable("Table");
                 });
 
             modelBuilder.Entity("POSSolution.Application.Models.Region", b =>
@@ -285,13 +160,6 @@ namespace POSSolution.Application.Migrations
                     b.HasOne("POSSolution.Application.Models.Region", "region")
                         .WithMany("tables")
                         .HasForeignKey("regionId");
-                });
-
-            modelBuilder.Entity("POSSolution.Application.Models.TableStatus", b =>
-                {
-                    b.HasOne("POSSolution.Application.Models.Region", "regions")
-                        .WithMany()
-                        .HasForeignKey("regionsregionId");
                 });
 #pragma warning restore 612, 618
         }

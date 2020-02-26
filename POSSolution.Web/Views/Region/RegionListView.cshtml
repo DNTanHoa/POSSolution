@@ -1,17 +1,17 @@
-﻿@model POSSolution.Web.Models.Shop.ShopStatusListViewModel;
+﻿@model POSSolution.Web.Models.Region.RegionListViewModel;
 @using POSSolution.Utilities.Extensions;
 @{
-    ViewData["Title"] = "ShopStatusListView";
+    ViewData["Title"] = "RegionListView";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
 <div class="card mb-4">
     <div class="card-header">
         <i class="fas fa-home mr-1"></i>
-        Các Trạng Thái Quán
+        Danh Sách Khu Vực Trong Cửa Hàng
         <div class="mt-2 d-inline-block">
             <div>
-                <a class="btn btn-success" asp-action="ShowAddNewPage" asp-controller="ShopStatus">
+                <a class="btn btn-success" asp-action="ShowAddNewPage" asp-controller="Shop">
                     <i class="fas fa-plus mr-1"></i>
                     Thêm Mới
                 </a>
@@ -24,6 +24,8 @@
                 <thead>
                     <tr>
                         <th>Tên</th>
+                        <th>Mã Khu</th>
+                        <th>Cửa Hàng</th>
                         <th>Người Tạo</th>
                         <th>Ngày Tạo</th>
                         <th>Ngày Sửa</th>
@@ -31,21 +33,24 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var status in Model.ShopStatuses)
+                    @foreach (var region in Model.regions)
                     {
+                        var shopFullName = @region.shop?.name + " - " + @region.shop.address;
                         <tr>
-                            <td>@status.statusName</td>
-                            <td>@status.createUser</td>
-                            <td>@status.createDate.ToTableDisplayDate()</td>
-                            <td>@status.updateDate.ToTableDisplayDate()</td>
+                            <td>@region.name</td>
+                            <td>@region.code</td>
+                            <td>@shopFullName</td>
+                            <td>@region.createUser</td>
+                            <td>@region.createDate.ToTableDisplayDate()</td>
+                            <td>@region.updateDate.ToTableDisplayDate()</td>
                             <td>
                                 <form>
                                     <div class="d-flex">
-                                        <a class="btn btn-success mr-1" asp-route-statusId="@status.statusId" asp-action="ShowEditPage">
+                                        <a class="btn btn-success mr-1" asp-route-shopId="@region.regionId" asp-action="ShowEditShop">
                                             <i class="far fa-edit mr-1"></i>
                                             Sửa
                                         </a>
-                                        <a class="btn btn-danger mr-1" asp-action="DeleteShopStatus" asp-controller="ShopStatus" asp-route-statusId="@status.statusId">
+                                        <a class="btn btn-danger mr-1" asp-action="DeleteShop" asp-controller="Shop" asp-route-shopId="@region.regionId">
                                             <i class="far fa-trash-alt mr-1"></i>
                                             Xóa
                                         </a>
@@ -54,10 +59,8 @@
                             </td>
                         </tr>
                     }
-                    <!--TODO: Add form for edit or delete user-->
                 </tbody>
             </table>
         </div>
     </div>
 </div>
-
